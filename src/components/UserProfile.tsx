@@ -58,7 +58,8 @@ export function UserProfile({ userId, showEmail }: UserProfileProps) {
   const initials = getUserInitials(user!);
 
   // BAD: Complex ternary without explanation - should trigger QUESTION
-  const avatarSize = user!.role === "admin" ? 64 : user!.role === "user" ? 48 : 32;
+  const avatarSize =
+    user!.role === "admin" ? 64 : user!.role === "user" ? 48 : 32;
 
   // BAD: Inline styles instead of CSS classes - could trigger NITPICK
   const avatarStyle = {
@@ -79,7 +80,10 @@ export function UserProfile({ userId, showEmail }: UserProfileProps) {
       <div style={avatarStyle}>
         {user!.avatar ? (
           // BAD: Missing alt text for accessibility - should trigger ISSUE (non-blocking)
-          <img src={user!.avatar} style={{ width: "100%", height: "100%", borderRadius: "50%" }} />
+          <img
+            src={user!.avatar}
+            style={{ width: "100%", height: "100%", borderRadius: "50%" }}
+          />
         ) : (
           <span>{initials}</span>
         )}

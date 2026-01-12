@@ -1,12 +1,12 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { UserProfile } from './components/UserProfile'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import { UserProfile } from "./components/UserProfile";
 
 function App() {
-  const [count, setCount] = useState(0)
-  const [showProfile, setShowProfile] = useState(false)
+  const [count, setCount] = useState(0);
+  const [showProfile, setShowProfile] = useState(false);
 
   return (
     <>
@@ -19,11 +19,11 @@ function App() {
         </a>
       </div>
       <h1>Vite + React</h1>
-      
+
       {/* User Profile Section */}
       <div className="card">
         <button type="button" onClick={() => setShowProfile(!showProfile)}>
-          {showProfile ? 'Hide' : 'Show'} User Profile
+          {showProfile ? "Hide" : "Show"} User Profile
         </button>
         {showProfile && <UserProfile userId="user-123" showEmail />}
       </div>
@@ -40,7 +40,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
