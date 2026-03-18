@@ -1,8 +1,8 @@
-import { Button } from './ui/button'
-import type { ServiceHealth } from '../types/operations'
+import { Button } from "./ui/button";
+import type { ServiceHealth } from "../types/operations";
 
 interface IncidentDetailProps {
-  incident: ServiceHealth | null
+  incident: ServiceHealth | null;
 }
 
 export function IncidentDetail({ incident }: IncidentDetailProps) {
@@ -11,7 +11,7 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
       <section className="rounded-3xl border border-dashed border-white/10 bg-slate-900/70 p-8 text-slate-400">
         No service matches the current filter.
       </section>
-    )
+    );
   }
 
   return (
@@ -32,7 +32,9 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
         <div className="grid gap-4 sm:grid-cols-3">
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
             <p className="text-sm text-slate-500">Team</p>
-            <p className="mt-2 text-lg font-medium text-white">{incident.team}</p>
+            <p className="mt-2 text-lg font-medium text-white">
+              {incident.team}
+            </p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
             <p className="text-sm text-slate-500">Severity</p>
@@ -72,14 +74,16 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <h3 className="text-lg font-medium text-white">Commander notes</h3>
+              <h3 className="text-lg font-medium text-white">
+                Commander notes
+              </h3>
               <p className="mt-1 text-sm text-slate-400">
                 Short context for the on-call handoff.
               </p>
             </div>
 
             <Button
-              disabled={incident.severity === 'critical'}
+              disabled={incident.severity === "critical"}
               className="bg-white text-slate-950 hover:bg-slate-200"
             >
               Escalate now
@@ -99,5 +103,5 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -1,30 +1,30 @@
-import { useMemo, useState } from 'react'
+import { useMemo, useState } from "react";
 
-import { IncidentDetail } from './components/IncidentDetail'
-import { OperationsQueue } from './components/OperationsQueue'
-import { Button } from './components/ui/button'
-import { serviceHealth } from './lib/mock-data'
+import { IncidentDetail } from "./components/IncidentDetail";
+import { OperationsQueue } from "./components/OperationsQueue";
+import { Button } from "./components/ui/button";
+import { serviceHealth } from "./lib/mock-data";
 
 function App() {
-  const [searchTerm, setSearchTerm] = useState('')
-  const [sortMode, setSortMode] = useState<'severity' | 'uptime'>('severity')
-  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortMode, setSortMode] = useState<"severity" | "uptime">("severity");
+  const [selectedIndex, setSelectedIndex] = useState(0);
 
   const visibleServices = useMemo(() => {
-    const normalizedQuery = searchTerm.trim().toLowerCase()
+    const normalizedQuery = searchTerm.trim().toLowerCase();
 
     return [...serviceHealth]
       .filter((service) => {
-        if (!normalizedQuery) return true
+        if (!normalizedQuery) return true;
 
         return [service.service, service.team, service.nextAction]
-          .join(' ')
+          .join(" ")
           .toLowerCase()
-          .includes(normalizedQuery)
+          .includes(normalizedQuery);
       })
       .sort((left, right) => {
-        if (sortMode === 'uptime') {
-          return left.uptime - right.uptime
+        if (sortMode === "uptime") {
+          return left.uptime - right.uptime;
         }
 
         const severityWeight = {
@@ -32,20 +32,23 @@ function App() {
           high: 3,
           medium: 2,
           low: 1,
-        }
+        };
 
-        return severityWeight[right.severity] - severityWeight[left.severity]
-      })
-  }, [searchTerm, sortMode])
+        return severityWeight[right.severity] - severityWeight[left.severity];
+      });
+  }, [searchTerm, sortMode]);
 
-  const selectedService = visibleServices[selectedIndex] ?? null
+  const selectedService = visibleServices[selectedIndex] ?? visibleServices[0] ?? null;
+  const activeSelectedIndex = selectedService
+    ? visibleServices.findIndex((service) => service.id === selectedService.id)
+    : -1;
 
   const criticalCount = visibleServices.filter(
-    (service) => service.severity === 'critical',
-  ).length
+    (service) => service.severity === "critical",
+  ).length;
   const averageBudget =
     visibleServices.reduce((sum, service) => sum + service.errorBudget, 0) /
-    (visibleServices.length || 1)
+    (visibleServices.length || 1);
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
@@ -60,8 +63,9 @@ function App() {
                 Keep release-critical services inside their error budget.
               </h1>
               <p className="max-w-2xl text-base leading-7 text-slate-300">
-                A compact triage board for launch week. Search the queue, sort by
-                severity or uptime, and drill into the service that needs action.
+                A compact triage board for launch week. Search the queue, sort
+                by severity or uptime, and drill into the service that needs
+                action.
               </p>
             </div>
           </div>
@@ -69,7 +73,9 @@ function App() {
           <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
             <div className="rounded-2xl border border-rose-400/20 bg-rose-400/10 p-4">
               <p className="text-sm text-rose-100/80">Critical services</p>
-              <p className="mt-2 text-3xl font-semibold text-white">{criticalCount}</p>
+              <p className="mt-2 text-3xl font-semibold text-white">
+                {criticalCount}
+              </p>
             </div>
             <div className="rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4">
               <p className="text-sm text-amber-50/80">Average error budget</p>
@@ -90,7 +96,9 @@ function App() {
           <div className="rounded-3xl border border-white/10 bg-slate-900/80 p-6 shadow-lg shadow-slate-950/20 backdrop-blur">
             <div className="flex flex-col gap-4 border-b border-white/10 pb-5 sm:flex-row sm:items-center sm:justify-between">
               <div>
-                <h2 className="text-2xl font-semibold text-white">Operations queue</h2>
+                <h2 className="text-2xl font-semibold text-white">
+                  Operations queue
+                </h2>
                 <p className="mt-1 text-sm text-slate-400">
                   Focus the review on visible behavior instead of styling.
                 </p>
@@ -108,18 +116,18 @@ function App() {
                   className="border-white/10 bg-white/5 text-white hover:bg-white/10"
                   onClick={() =>
                     setSortMode((current) =>
-                      current === 'severity' ? 'uptime' : 'severity',
+                      current === "severity" ? "uptime" : "severity",
                     )
                   }
                 >
-                  Sort: {sortMode === 'severity' ? 'Severity' : 'Uptime'}
+                  Sort: {sortMode === "severity" ? "Severity" : "Uptime"}
                 </Button>
               </div>
             </div>
 
             <OperationsQueue
               services={visibleServices}
-              selectedIndex={selectedIndex}
+              selectedIndex={activeSelectedIndex}
               onSelect={setSelectedIndex}
             />
           </div>
@@ -128,7 +136,7 @@ function App() {
         </section>
       </div>
     </main>
-  )
+  );
 }
 
-export default App
+export default App;
