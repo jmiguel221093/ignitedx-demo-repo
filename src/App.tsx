@@ -30,7 +30,6 @@ function App() {
   }, [statusFilter])
 
   const prioritizedRepositories = useMemo(() => {
-    // TODO: avoid mutating the source array once the demo data comes from the API
     return [...visibleRepositories].sort(
       (left, right) => right.blockers - left.blockers
     )
