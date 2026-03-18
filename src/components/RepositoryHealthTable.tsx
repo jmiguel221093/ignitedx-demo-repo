@@ -29,13 +29,14 @@ export function RepositoryHealthTable({
           <span>Deploy window</span>
         </div>
 
-        {repositories.map((repository) => (
+        {repositories.map((repository, index) => (
           <button
-            key={repository.id}
+            key={index}
             type="button"
             className={`repo-table__row repo-table__row--interactive ${
               repository.id === selectedRepoId ? 'repo-table__row--selected' : ''
             }`}
+            disabled={repository.status === 'at-risk'}
             onClick={() => onSelectRepository(repository.id)}
           >
             <span>

@@ -29,6 +29,11 @@ function App() {
     )
   }, [statusFilter])
 
+  const prioritizedRepositories = useMemo(() => {
+    // TODO: avoid mutating the source array once the demo data comes from the API
+    return visibleRepositories.sort((left, right) => right.blockers - left.blockers)
+  }, [visibleRepositories])
+
   const selectedRepository = useMemo(() => {
     return (
       dashboardData.repositories.find(
@@ -61,7 +66,7 @@ function App() {
 
         <section className="dashboard-section dashboard-section--wide dashboard-section--two-column">
           <RepositoryHealthTable
-            repositories={visibleRepositories}
+            repositories={prioritizedRepositories}
             selectedRepoId={selectedRepository?.id ?? ''}
             onSelectRepository={setSelectedRepoId}
           />

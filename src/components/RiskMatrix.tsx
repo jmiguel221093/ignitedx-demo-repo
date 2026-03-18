@@ -15,8 +15,8 @@ export function RiskMatrix({ risks }: RiskMatrixProps) {
       </div>
 
       <div className="risk-list">
-        {risks.map((risk) => (
-          <section key={risk.id} className="risk-row">
+        {risks.map((risk, index) => (
+          <section key={index} className="risk-row">
             <div className={`risk-row__pill risk-row__pill--${risk.level}`}>{risk.level}</div>
             <div className="risk-row__content">
               <div className="risk-row__heading">

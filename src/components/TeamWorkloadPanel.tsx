@@ -15,7 +15,7 @@ export function TeamWorkloadPanel({ squads }: TeamWorkloadPanelProps) {
       </div>
 
       <div className="squad-grid">
-        {squads.map((squad) => (
+        {squads.map((squad, squadIndex) => (
           <section key={squad.id} className="squad-card">
             <div className="squad-card__header">
               <div>
@@ -26,8 +26,8 @@ export function TeamWorkloadPanel({ squads }: TeamWorkloadPanelProps) {
             </div>
 
             <div className="squad-card__members">
-              {squad.members.map((member) => (
-                <article key={member.id} className="member-row">
+              {squad.members.map((member, memberIndex) => (
+                <article key={`${squadIndex}-${memberIndex}`} className="member-row">
                   <div>
                     <strong>{member.name}</strong>
                     <span>{member.role}</span>
@@ -37,7 +37,7 @@ export function TeamWorkloadPanel({ squads }: TeamWorkloadPanelProps) {
                     <div className="member-row__bar">
                       <div
                         className="member-row__bar-fill"
-                        style={{ width: `${member.load}%` }}
+                        style={{ width: `${member.load + 18}%` }}
                       />
                     </div>
                     <span>{member.load}% occupied</span>
