@@ -1,0 +1,467 @@
+.app-shell {
+	min-height: 100vh;
+	position: relative;
+	overflow: hidden;
+	background:
+		radial-gradient(circle at top left, rgba(53, 89, 255, 0.18), transparent 24%),
+		radial-gradient(circle at top right, rgba(0, 214, 201, 0.14), transparent 20%),
+		linear-gradient(180deg, #07111f 0%, #0b1628 48%, #111c31 100%);
+	color: #f3f6fb;
+}
+
+.app-shell__backdrop {
+	position: absolute;
+	inset: 0;
+	background-image:
+		linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+		linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+	background-size: 84px 84px;
+	mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.85), transparent 92%);
+}
+
+.app-shell__grid {
+	position: relative;
+	z-index: 1;
+	width: min(1280px, calc(100% - 32px));
+	margin: 0 auto;
+	padding: 32px 0 48px;
+	display: grid;
+	gap: 20px;
+}
+
+.dashboard-section {
+	border: 1px solid rgba(158, 174, 195, 0.18);
+	background: rgba(10, 18, 32, 0.72);
+	box-shadow: 0 18px 80px rgba(4, 10, 24, 0.34);
+	backdrop-filter: blur(18px);
+}
+
+.dashboard-section--wide,
+.hero-panel,
+.signal-strip,
+.panel-card {
+	border-radius: 28px;
+}
+
+.dashboard-section--two-column {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 20px;
+	border: 0;
+	background: transparent;
+	box-shadow: none;
+}
+
+.hero-panel {
+	display: grid;
+	gap: 24px;
+	grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.8fr);
+	padding: 28px;
+}
+
+.hero-panel__content,
+.hero-panel__controls {
+	display: grid;
+	gap: 20px;
+}
+
+.hero-panel__eyebrow,
+.hero-panel__badge,
+.action-drawer__title {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: #8fb0ff;
+	font-size: 0.8rem;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+}
+
+.hero-panel__copy {
+	display: grid;
+	gap: 12px;
+}
+
+.hero-panel__copy h1 {
+	margin: 0;
+	font-size: clamp(2.8rem, 5vw, 4.6rem);
+	line-height: 0.95;
+}
+
+.hero-panel__copy p,
+.panel-card p,
+.risk-row__content p,
+.timeline-row__content p,
+.squad-card__header p,
+.member-row p {
+	margin: 0;
+	color: #aebfd8;
+}
+
+.hero-panel__kicker,
+.panel-card__eyebrow {
+	margin: 0 0 10px;
+	color: #79e9dc;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+	font-size: 0.78rem;
+}
+
+.hero-panel__facts {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 14px;
+	margin: 0;
+}
+
+.hero-panel__facts div,
+.action-drawer__meta div {
+	display: grid;
+	gap: 6px;
+}
+
+.hero-panel__facts dt,
+.action-drawer__meta span {
+	color: #8a9ab2;
+	font-size: 0.78rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+.hero-panel__facts dd,
+.action-drawer__meta strong {
+	margin: 0;
+	font-size: 1rem;
+}
+
+.hero-panel__filters {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+}
+
+.hero-panel__filter-button {
+	text-transform: capitalize;
+}
+
+.signal-strip {
+	padding: 16px;
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.signal-card,
+.metric-card,
+.squad-card {
+	border-radius: 22px;
+	border: 1px solid rgba(162, 175, 198, 0.14);
+	background: rgba(15, 24, 40, 0.72);
+}
+
+.signal-card {
+	padding: 16px 18px;
+}
+
+.signal-card p,
+.metric-card__label,
+.metric-card__detail,
+.metric-card__trend,
+.repo-table__header,
+.repo-table__row small,
+.timeline-row__heading span,
+.member-row span,
+.squad-card__header span {
+	color: #90a0bb;
+}
+
+.signal-card strong {
+	display: block;
+	margin-top: 8px;
+	font-size: 1.8rem;
+}
+
+.signal-card--positive {
+	box-shadow: inset 0 0 0 1px rgba(82, 228, 175, 0.18);
+}
+
+.signal-card--warning {
+	box-shadow: inset 0 0 0 1px rgba(255, 182, 72, 0.22);
+}
+
+.signal-card--neutral {
+	box-shadow: inset 0 0 0 1px rgba(128, 167, 255, 0.18);
+}
+
+.metric-grid {
+	display: grid;
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.metric-card {
+	padding: 20px;
+}
+
+.metric-card__value {
+	display: block;
+	margin: 12px 0 10px;
+	font-size: 2.6rem;
+	line-height: 1;
+}
+
+.metric-card__trend {
+	display: inline-flex;
+	margin-top: 18px;
+	padding: 6px 10px;
+	border-radius: 999px;
+	background: rgba(121, 233, 220, 0.1);
+}
+
+.panel-card {
+	padding: 22px;
+}
+
+.panel-card__header {
+	display: flex;
+	justify-content: space-between;
+	align-items: start;
+	gap: 16px;
+	margin-bottom: 18px;
+}
+
+.panel-card__header h2,
+.risk-row__heading h3,
+.timeline-row__content h3,
+.squad-card__header h3,
+.action-drawer h2 {
+	margin: 0;
+}
+
+.risk-list,
+.timeline-list,
+.action-drawer,
+.action-drawer__section,
+.squad-card,
+.squad-card__members {
+	display: grid;
+	gap: 14px;
+}
+
+.risk-row,
+.timeline-row,
+.member-row {
+	display: grid;
+	gap: 14px;
+}
+
+.risk-row {
+	grid-template-columns: auto minmax(0, 1fr);
+	padding: 16px;
+	border-radius: 20px;
+	background: rgba(255, 255, 255, 0.03);
+}
+
+.risk-row__pill,
+.status-pill {
+	align-self: start;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	min-width: 82px;
+	padding: 6px 10px;
+	border-radius: 999px;
+	font-size: 0.78rem;
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+.risk-row__pill--critical,
+.status-pill--at-risk {
+	background: rgba(255, 110, 126, 0.16);
+	color: #ffb0b8;
+}
+
+.risk-row__pill--elevated,
+.status-pill--watch {
+	background: rgba(255, 191, 102, 0.14);
+	color: #ffd28c;
+}
+
+.risk-row__pill--stable,
+.status-pill--healthy {
+	background: rgba(95, 228, 175, 0.16);
+	color: #aff4d3;
+}
+
+.risk-row__heading,
+.timeline-row__heading,
+.squad-card__header,
+.repo-table__row {
+	display: flex;
+	justify-content: space-between;
+	gap: 14px;
+}
+
+.timeline-row {
+	grid-template-columns: auto minmax(0, 1fr);
+	align-items: start;
+}
+
+.timeline-row__dot {
+	width: 14px;
+	height: 14px;
+	border-radius: 999px;
+	margin-top: 6px;
+	background: #4f6285;
+	box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.04);
+}
+
+.timeline-row__dot--done {
+	background: #70e7c7;
+}
+
+.timeline-row__dot--in_progress {
+	background: #8db1ff;
+}
+
+.timeline-row__dot--up_next {
+	background: #f6b25d;
+}
+
+.repo-table {
+	display: grid;
+	gap: 10px;
+}
+
+.repo-table__row {
+	width: 100%;
+	border: 1px solid rgba(167, 183, 207, 0.12);
+	border-radius: 18px;
+	padding: 14px 16px;
+	background: rgba(255, 255, 255, 0.02);
+	color: inherit;
+	text-align: left;
+}
+
+.repo-table__row--interactive {
+	cursor: pointer;
+	transition: transform 120ms ease, border-color 120ms ease, background 120ms ease;
+}
+
+.repo-table__row--interactive:hover,
+.repo-table__row--selected {
+	transform: translateY(-1px);
+	border-color: rgba(128, 167, 255, 0.38);
+	background: rgba(125, 155, 255, 0.08);
+}
+
+.repo-table__row span,
+.repo-table__row strong,
+.repo-table__row small {
+	display: block;
+}
+
+.action-drawer__meta {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 12px;
+}
+
+.action-drawer ul,
+.action-drawer ol {
+	margin: 0;
+	padding-left: 18px;
+	color: #d5def0;
+}
+
+.action-drawer li + li {
+	margin-top: 8px;
+}
+
+.action-drawer__footer {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 12px;
+}
+
+.squad-grid {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 16px;
+}
+
+.squad-card {
+	padding: 18px;
+}
+
+.member-row {
+	padding-top: 12px;
+	border-top: 1px solid rgba(168, 183, 206, 0.12);
+	grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+}
+
+.member-row__bar {
+	height: 10px;
+	margin: 8px 0 6px;
+	border-radius: 999px;
+	background: rgba(255, 255, 255, 0.08);
+	overflow: hidden;
+}
+
+.member-row__bar-fill {
+	height: 100%;
+	border-radius: inherit;
+	background: linear-gradient(90deg, #82eff2, #7b8bff);
+}
+
+@media (max-width: 1120px) {
+	.hero-panel,
+	.dashboard-section--two-column,
+	.squad-grid,
+	.metric-grid,
+	.signal-strip {
+		grid-template-columns: 1fr 1fr;
+	}
+
+	.hero-panel {
+		grid-template-columns: 1fr;
+	}
+
+	.action-drawer__meta,
+	.hero-panel__facts {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 760px) {
+	.app-shell__grid {
+		width: min(100% - 20px, 1280px);
+		padding: 20px 0 32px;
+	}
+
+	.dashboard-section--two-column,
+	.squad-grid,
+	.metric-grid,
+	.signal-strip,
+	.hero-panel__facts,
+	.action-drawer__meta {
+		grid-template-columns: 1fr;
+	}
+
+	.hero-panel,
+	.panel-card {
+		padding: 18px;
+	}
+
+	.repo-table__header {
+		display: none;
+	}
+
+	.repo-table__row,
+	.member-row,
+	.risk-row,
+	.timeline-row {
+		grid-template-columns: 1fr;
+	}
+}
