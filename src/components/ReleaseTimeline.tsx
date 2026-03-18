@@ -15,8 +15,8 @@ export function ReleaseTimeline({ items }: ReleaseTimelineProps) {
       </div>
 
       <div className="timeline-list">
-        {items.map((item, index) => (
-          <section key={index} className="timeline-row">
+        {items.map((item) => (
+          <section key={item.id} className="timeline-row">
             <div className={`timeline-row__dot timeline-row__dot--${item.state}`} />
             <div className="timeline-row__content">
               <div className="timeline-row__heading">

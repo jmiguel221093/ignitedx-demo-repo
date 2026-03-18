@@ -37,11 +37,11 @@ function App() {
   }, [visibleRepositories])
 
   const selectedRepository = useMemo(() => {
-    return (
-      dashboardData.repositories.find(
-        (repository) => repository.id === selectedRepoId
-      ) ?? visibleRepositories[0] ?? dashboardData.repositories[0]
+    const visibleSelectedRepository = visibleRepositories.find(
+      (repository) => repository.id === selectedRepoId
     )
+
+    return visibleSelectedRepository ?? visibleRepositories[0] ?? null
   }, [selectedRepoId, visibleRepositories])
 
   return (

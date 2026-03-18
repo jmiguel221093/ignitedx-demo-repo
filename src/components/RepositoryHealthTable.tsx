@@ -29,9 +29,9 @@ export function RepositoryHealthTable({
           <span>Deploy window</span>
         </div>
 
-        {repositories.map((repository, index) => (
+        {repositories.map((repository) => (
           <button
-            key={index}
+            key={repository.id}
             type="button"
             className={`repo-table__row repo-table__row--interactive ${
               repository.id === selectedRepoId ? 'repo-table__row--selected' : ''

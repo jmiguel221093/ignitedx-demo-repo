@@ -7,8 +7,8 @@ interface MetricGridProps {
 export function MetricGrid({ metrics }: MetricGridProps) {
   return (
     <div className="metric-grid">
-      {metrics.map((metric, index) => (
-        <article key={index} className="metric-card">
+      {metrics.map((metric) => (
+        <article key={metric.id} className="metric-card">
           <p className="metric-card__label">{metric.label}</p>
           <strong className="metric-card__value">{metric.value}</strong>
           <p className="metric-card__detail">{metric.detail}</p>
