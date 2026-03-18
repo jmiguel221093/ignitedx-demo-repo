@@ -64,7 +64,7 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
           <div className="mt-4 h-3 overflow-hidden rounded-full bg-slate-800">
             <div
               className="h-full rounded-full bg-gradient-to-r from-cyan-300 via-sky-400 to-indigo-400"
-              style={{ width: `${incident.errorBudget + 18}%` }}
+              style={{ width: `${Math.min(100, incident.errorBudget + 18)}%` }}
             />
           </div>
         </div>

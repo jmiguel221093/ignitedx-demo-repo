@@ -38,8 +38,7 @@ function App() {
       })
   }, [searchTerm, sortMode])
 
-  const selectedService =
-    serviceHealth[selectedIndex] ?? visibleServices[0] ?? null
+  const selectedService = visibleServices[selectedIndex] ?? null
 
   const criticalCount = visibleServices.filter(
     (service) => service.severity === 'critical',
