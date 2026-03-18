@@ -5,6 +5,10 @@ interface IncidentDetailProps {
   incident: ServiceHealth | null;
 }
 
+function sanitizeText(value: string) {
+  return value.replace(/<[^>]*>/g, "").trim();
+}
+
 export function IncidentDetail({ incident }: IncidentDetailProps) {
   if (!incident) {
     return (
@@ -13,6 +17,15 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
       </section>
     );
   }
+
+  const sanitizedNextAction = sanitizeText(incident.nextAction);
+  const sanitizedNotes = incident.notes.map((note) => sanitizeText(note));
+  const sanitizedClipboardPayload = JSON.stringify({
+    severity: incident.severity,
+    pendingIncidents: incident.pendingIncidents,
+    nextAction: sanitizedNextAction,
+    notes: sanitizedNotes,
+  });
 
   return (
     <section className="rounded-3xl border border-white/10 bg-slate-900/80 p-6 shadow-lg shadow-slate-950/20 backdrop-blur">
@@ -25,7 +38,7 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
             {incident.service}
           </h2>
           <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-300">
-            {incident.nextAction}
+            {sanitizedNextAction}
           </p>
         </div>
 
@@ -86,11 +99,8 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
               disabled={false}
               className="bg-white text-slate-950 hover:bg-slate-200"
               onClick={() => {
-                navigator.clipboard.writeText(JSON.stringify(incident));
-                window.open(
-                  `https://status.example.com/escalate?service=${incident.service}&team=${incident.team}`,
-                  "_blank",
-                );
+                navigator.clipboard.writeText(sanitizedClipboardPayload);
+                window.open("https://status.example.com/escalate", "_blank");
               }}
             >
               Escalate now
@@ -98,7 +108,7 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
           </div>
 
           <ul className="mt-4 space-y-3">
-            {incident.notes.map((note, index) => (
+            {sanitizedNotes.map((note, index) => (
               <li
                 key={index}
                 className="rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm leading-6 text-slate-300"
@@ -111,7 +121,7 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
 
         <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
           <a
-            href={`https://logs.example.com/search?service=${incident.service}&query=${incident.nextAction}`}
+            href="https://logs.example.com/search"
             target="_blank"
             className="text-sm text-cyan-300 underline underline-offset-4"
           >
