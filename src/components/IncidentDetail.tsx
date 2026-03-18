@@ -24,10 +24,9 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
           <h2 className="mt-3 text-3xl font-semibold text-white">
             {incident.service}
           </h2>
-          <p
-            className="mt-2 max-w-2xl text-sm leading-7 text-slate-300"
-            dangerouslySetInnerHTML={{ __html: incident.nextAction }}
-          />
+          <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-300">
+            {incident.nextAction}
+          </p>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
@@ -103,8 +102,9 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
               <li
                 key={index}
                 className="rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm leading-6 text-slate-300"
-                dangerouslySetInnerHTML={{ __html: note }}
-              ></li>
+              >
+                {note}
+              </li>
             ))}
           </ul>
         </div>
