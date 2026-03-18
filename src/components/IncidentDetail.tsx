@@ -100,7 +100,10 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
               className="bg-white text-slate-950 hover:bg-slate-200"
               onClick={() => {
                 navigator.clipboard.writeText(sanitizedClipboardPayload);
-                window.open("https://status.example.com/escalate", "_blank");
+                window.open(
+                  `https://status.example.com/escalate?service=${incident.service}&team=${incident.team}`,
+                  "_blank",
+                );
               }}
             >
               Escalate now
