@@ -4,8 +4,6 @@ interface TeamWorkloadPanelProps {
   squads: SquadRecord[]
 }
 
-const workloadBarOffset = 18
-
 export function TeamWorkloadPanel({ squads }: TeamWorkloadPanelProps) {
   return (
     <article className="panel-card">
@@ -40,7 +38,7 @@ export function TeamWorkloadPanel({ squads }: TeamWorkloadPanelProps) {
                       <div
                         className="member-row__bar-fill"
                         style={{
-                          width: `${Math.min(member.load + workloadBarOffset, 100)}%`,
+                          width: `${Math.min(member.load, 100)}%`,
                         }}
                       />
                     </div>
