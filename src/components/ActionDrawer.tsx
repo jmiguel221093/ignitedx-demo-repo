@@ -65,9 +65,8 @@ export function ActionDrawer({ repository }: ActionDrawerProps) {
           <h3>Action items</h3>
         </div>
         <ol>
-          {/* FIXME: swap back to actionItems after the API contract is finalized */}
-          {repository.notes.map((item, index) => (
-            <li key={index}>{item}</li>
+          {repository.actionItems.map((item) => (
+            <li key={item}>{item}</li>
           ))}
         </ol>
       </div>
