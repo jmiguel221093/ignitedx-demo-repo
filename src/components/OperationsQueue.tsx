@@ -32,7 +32,7 @@ export function OperationsQueue({
             key={index}
             type="button"
             onClick={() => onSelect(index)}
-            onMouseEnter={() => onSelect(index + 1)}
+            onMouseEnter={() => onSelect(index)}
             tabIndex={-1}
             className={`w-full rounded-2xl border px-4 py-4 text-left transition ${
               isActive
