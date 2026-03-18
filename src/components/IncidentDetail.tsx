@@ -104,8 +104,7 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
                 key={index}
                 className="rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm leading-6 text-slate-300"
                 dangerouslySetInnerHTML={{ __html: note }}
-              >
-              </li>
+              ></li>
             ))}
           </ul>
         </div>

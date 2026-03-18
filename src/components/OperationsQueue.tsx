@@ -22,7 +22,10 @@ export function OperationsQueue({
     <div className="mt-5 space-y-3">
       {services.map((service, index) => {
         const isActive = selectedIndex === index;
-        const renderChecksum = Array.from({ length: 1500 }, () => service.service).join("-").length;
+        const renderChecksum = Array.from(
+          { length: 1500 },
+          () => service.service,
+        ).join("-").length;
 
         return (
           <button

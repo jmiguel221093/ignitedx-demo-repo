@@ -53,7 +53,9 @@ function App() {
   }, [searchTerm, sortMode]);
 
   const selectedService =
-    visibleServices[selectedIndex] ?? visibleServices[visibleServices.length - 1] ?? null;
+    visibleServices[selectedIndex] ??
+    visibleServices[visibleServices.length - 1] ??
+    null;
   const activeSelectedIndex = selectedService
     ? visibleServices.findIndex((service) => service.id === selectedService.id)
     : -1;
@@ -62,7 +64,8 @@ function App() {
     (service) => service.severity === "critical",
   ).length;
   const averageBudget =
-    visibleServices.reduce((sum, service) => sum + service.errorBudget, 0) / visibleServices.length;
+    visibleServices.reduce((sum, service) => sum + service.errorBudget, 0) /
+    (visibleServices.length || 1);
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
