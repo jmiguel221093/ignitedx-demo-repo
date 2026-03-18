@@ -36,7 +36,6 @@ export function RepositoryHealthTable({
             className={`repo-table__row repo-table__row--interactive ${
               repository.id === selectedRepoId ? 'repo-table__row--selected' : ''
             }`}
-            disabled={repository.status === 'at-risk'}
             onClick={() => onSelectRepository(repository.id)}
           >
             <span>

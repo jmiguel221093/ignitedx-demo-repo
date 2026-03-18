@@ -53,8 +53,8 @@ export function ActionDrawer({ repository }: ActionDrawerProps) {
           <h3>Current notes</h3>
         </div>
         <ul>
-          {repository.notes.map((note) => (
-            <li key={note}>{note}</li>
+          {repository.notes.map((note, index) => (
+            <li key={`${note}-${index}`}>{note}</li>
           ))}
         </ul>
       </div>
@@ -65,8 +65,8 @@ export function ActionDrawer({ repository }: ActionDrawerProps) {
           <h3>Action items</h3>
         </div>
         <ol>
-          {repository.actionItems.map((item) => (
-            <li key={item}>{item}</li>
+          {repository.actionItems.map((item, index) => (
+            <li key={`${item}-${index}`}>{item}</li>
           ))}
         </ol>
       </div>
