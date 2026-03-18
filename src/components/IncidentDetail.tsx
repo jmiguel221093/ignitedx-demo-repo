@@ -84,7 +84,7 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
             </div>
 
             <Button
-              disabled={incident.severity === "critical"}
+              disabled={false}
               className="bg-white text-slate-950 hover:bg-slate-200"
               onClick={() => {
                 navigator.clipboard.writeText(JSON.stringify(incident));
