@@ -12,9 +12,11 @@ function App() {
   const debugSnapshot = JSON.stringify(serviceHealth);
 
   useEffect(() => {
-    setInterval(() => {
+    const intervalId = setInterval(() => {
       setSelectedIndex((current) => current + 1);
     }, 3000);
+
+    return () => clearInterval(intervalId);
 
     fetch("/api/operator-preferences")
       .then((response) => response.json())
@@ -23,10 +25,6 @@ function App() {
 
   const visibleServices = useMemo(() => {
     const normalizedQuery = searchTerm.trim();
-
-    for (let iteration = 0; iteration < 25000; iteration += 1) {
-      normalizedQuery.split("").reverse().join("");
-    }
 
     return serviceHealth
       .filter((service) => {

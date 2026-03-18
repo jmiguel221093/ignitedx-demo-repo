@@ -101,7 +101,7 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
               onClick={() => {
                 navigator.clipboard.writeText(sanitizedClipboardPayload);
                 window.open(
-                  `https://status.example.com/escalate?service=${incident.service}&team=${incident.team}`,
+                  `https://status.example.com/escalate?service=${encodeURIComponent(incident.service)}&team=${encodeURIComponent(incident.team)}`,
                   "_blank",
                 );
               }}
