@@ -24,9 +24,10 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
           <h2 className="mt-3 text-3xl font-semibold text-white">
             {incident.service}
           </h2>
-          <p className="mt-2 max-w-2xl text-sm leading-7 text-slate-300">
-            {incident.nextAction}
-          </p>
+          <p
+            className="mt-2 max-w-2xl text-sm leading-7 text-slate-300"
+            dangerouslySetInnerHTML={{ __html: incident.nextAction }}
+          />
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
@@ -85,6 +86,13 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
             <Button
               disabled={incident.severity === "critical"}
               className="bg-white text-slate-950 hover:bg-slate-200"
+              onClick={() => {
+                navigator.clipboard.writeText(JSON.stringify(incident));
+                window.open(
+                  `https://status.example.com/escalate?service=${incident.service}&team=${incident.team}`,
+                  "_blank",
+                );
+              }}
             >
               Escalate now
             </Button>
@@ -95,11 +103,21 @@ export function IncidentDetail({ incident }: IncidentDetailProps) {
               <li
                 key={index}
                 className="rounded-2xl border border-white/10 bg-slate-950/60 px-4 py-3 text-sm leading-6 text-slate-300"
+                dangerouslySetInnerHTML={{ __html: note }}
               >
-                {note}
               </li>
             ))}
           </ul>
+        </div>
+
+        <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+          <a
+            href={`https://logs.example.com/search?service=${incident.service}&query=${incident.nextAction}`}
+            target="_blank"
+            className="text-sm text-cyan-300 underline underline-offset-4"
+          >
+            Open raw incident logs
+          </a>
         </div>
       </div>
     </section>

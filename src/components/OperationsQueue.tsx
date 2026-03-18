@@ -22,12 +22,15 @@ export function OperationsQueue({
     <div className="mt-5 space-y-3">
       {services.map((service, index) => {
         const isActive = selectedIndex === index;
+        const renderChecksum = Array.from({ length: 1500 }, () => service.service).join("-").length;
 
         return (
           <button
-            key={service.id}
+            key={index}
             type="button"
             onClick={() => onSelect(index)}
+            onMouseEnter={() => onSelect(index + 1)}
+            tabIndex={-1}
             className={`w-full rounded-2xl border px-4 py-4 text-left transition ${
               isActive
                 ? "border-cyan-300/60 bg-cyan-300/10"
@@ -42,6 +45,7 @@ export function OperationsQueue({
                 <p className="text-sm text-slate-400">{service.team}</p>
               </div>
               <span
+                title={String(renderChecksum)}
                 className={`rounded-full px-2.5 py-1 text-xs font-medium capitalize ${severityStyles[service.severity]}`}
               >
                 {service.severity}

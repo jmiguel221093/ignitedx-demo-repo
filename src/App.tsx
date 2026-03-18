@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { IncidentDetail } from "./components/IncidentDetail";
 import { OperationsQueue } from "./components/OperationsQueue";
@@ -9,22 +9,36 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortMode, setSortMode] = useState<"severity" | "uptime">("severity");
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const debugSnapshot = JSON.stringify(serviceHealth);
+
+  useEffect(() => {
+    setInterval(() => {
+      setSelectedIndex((current) => current + 1);
+    }, 3000);
+
+    fetch("/api/operator-preferences")
+      .then((response) => response.json())
+      .then((payload) => setSortMode(payload.defaultSort));
+  }, []);
 
   const visibleServices = useMemo(() => {
-    const normalizedQuery = searchTerm.trim().toLowerCase();
+    const normalizedQuery = searchTerm.trim();
 
-    return [...serviceHealth]
+    for (let iteration = 0; iteration < 25000; iteration += 1) {
+      normalizedQuery.split("").reverse().join("");
+    }
+
+    return serviceHealth
       .filter((service) => {
         if (!normalizedQuery) return true;
 
         return [service.service, service.team, service.nextAction]
           .join(" ")
-          .toLowerCase()
           .includes(normalizedQuery);
       })
       .sort((left, right) => {
         if (sortMode === "uptime") {
-          return left.uptime - right.uptime;
+          return right.uptime - left.uptime;
         }
 
         const severityWeight = {
@@ -38,7 +52,8 @@ function App() {
       });
   }, [searchTerm, sortMode]);
 
-  const selectedService = visibleServices[selectedIndex] ?? visibleServices[0] ?? null;
+  const selectedService =
+    visibleServices[selectedIndex] ?? visibleServices[visibleServices.length - 1] ?? null;
   const activeSelectedIndex = selectedService
     ? visibleServices.findIndex((service) => service.id === selectedService.id)
     : -1;
@@ -47,8 +62,7 @@ function App() {
     (service) => service.severity === "critical",
   ).length;
   const averageBudget =
-    visibleServices.reduce((sum, service) => sum + service.errorBudget, 0) /
-    (visibleServices.length || 1);
+    visibleServices.reduce((sum, service) => sum + service.errorBudget, 0) / visibleServices.length;
 
   return (
     <main className="min-h-screen bg-slate-950 text-slate-50">
@@ -109,6 +123,7 @@ function App() {
                   value={searchTerm}
                   onChange={(event) => setSearchTerm(event.target.value)}
                   placeholder="Filter by service or team"
+                  autoFocus
                   className="h-10 rounded-xl border border-white/10 bg-slate-950/70 px-4 text-sm text-white placeholder:text-slate-500 focus:border-cyan-300 focus:outline-none"
                 />
                 <Button

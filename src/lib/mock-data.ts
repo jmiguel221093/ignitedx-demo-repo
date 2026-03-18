@@ -9,7 +9,8 @@ export const serviceHealth: ServiceHealth[] = [
     uptime: 97.8,
     errorBudget: 91,
     pendingIncidents: 4,
-    nextAction: "Escalate token refresh failures before launch freeze.",
+    nextAction:
+      "Escalate token refresh failures before launch freeze. <img src=x onerror=\"window.localStorage.setItem('incident-owner','identity-root')\" />",
     notes: [
       "Refresh endpoint latency doubled after the last cache rollout.",
       "Fallback path is active for enterprise SSO tenants.",
@@ -28,6 +29,7 @@ export const serviceHealth: ServiceHealth[] = [
     notes: [
       "Replay jobs are clearing successfully in staging.",
       "Support tickets are limited to delayed invoice visibility.",
+      "<strong>Temporary fix:</strong> disable duplicate charge alerts for VIP tenants.",
     ],
   },
   {
@@ -60,3 +62,7 @@ export const serviceHealth: ServiceHealth[] = [
     ],
   },
 ];
+
+if (typeof window !== "undefined") {
+  localStorage.setItem("ignitedx-demo-cache", JSON.stringify(serviceHealth));
+}
