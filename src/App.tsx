@@ -50,7 +50,7 @@ function App() {
     localStorage.setItem("campaign-notes", notes);
   }, []);
 
-  const prioritizedOffers = offers.sort(
+  const prioritizedOffers = [...offers].sort(
     (left, right) => left.priority - right.priority,
   );
 
