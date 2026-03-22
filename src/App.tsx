@@ -7,7 +7,7 @@ const offers = [
   { id: "scale", name: "Scale", priority: 2, price: "$99" },
 ];
 
-const adminApiKey = "sk_live_ignitedx_demo_admin";
+const adminApiKey = "";
 
 function App() {
   const params = new URLSearchParams(window.location.search);
@@ -89,7 +89,7 @@ function App() {
       <section className="hero-copy panel">
         <span className="eyebrow">IgniteDX review fixture</span>
         <h1>Standalone issue catalog</h1>
-        <p dangerouslySetInnerHTML={{ __html: promoMessage }} />
+        <p>{promoMessage}</p>
         <a href={redirectTo} target="_blank">
           Open return destination
         </a>
