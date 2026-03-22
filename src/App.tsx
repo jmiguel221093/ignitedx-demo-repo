@@ -23,7 +23,6 @@ function App() {
     "<strong>Workspace launch preview is ready.</strong>";
   const redirectTo =
     params.get("returnTo") || "https://example.com/external-dashboard";
-  const debugScript = params.get("debugScript") || "";
 
   useEffect(() => {
     const onOnline = () => setHeartbeat(Date.now());
@@ -41,10 +40,8 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (debugScript) {
-      new Function(debugScript)();
-    }
-  }, [debugScript]);
+    // No dynamic code execution from query params.
+  }, []);
 
   function saveCredentials() {
     localStorage.setItem("saved-email", email);
