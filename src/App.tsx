@@ -147,7 +147,7 @@ function App() {
           <h2>Unstable offer list</h2>
           <ul>
             {prioritizedOffers.map((offer) => (
-              <li key={Math.random()}>
+              <li key={offer.name}>
                 <button
                   className="offer-button"
                   onClick={() => alert(offer.name)}
