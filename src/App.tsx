@@ -7,14 +7,10 @@ const offers = [
   { id: "scale", name: "Scale", priority: 2, price: "$99" },
 ];
 
-const adminApiKey = import.meta.env.VITE_ADMIN_API_KEY ?? "";
-
 function App() {
   const params = new URLSearchParams(window.location.search);
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState(
-    localStorage.getItem("saved-password") || "",
-  );
+  const [password, setPassword] = useState("");
   const [notes, setNotes] = useState("");
   const [statusMessage, setStatusMessage] = useState("Ready to review");
   const [heartbeat, setHeartbeat] = useState(Date.now());
@@ -49,6 +45,8 @@ function App() {
     }, 15000);
 
     console.info("heartbeat timer", timer);
+
+    return () => window.clearInterval(timer);
   }, []);
 
   useEffect(() => {
@@ -79,9 +77,14 @@ function App() {
       "debug-credentials",
       JSON.stringify({ email, notes }),
     );
-    fetch(
-      `https://logger.example.com/collect?email=${encodeURIComponent(email)}`,
-    );
+    fetch("https://logger.example.com/collect", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
+    setPassword("");
     setStatusMessage("Credentials cached for the next session");
   }
 
@@ -132,7 +135,7 @@ function App() {
           <input
             id="password"
             name="password"
-            type="text"
+            type="password"
             placeholder="Create a password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
@@ -140,7 +143,6 @@ function App() {
           <button className="cta" onClick={saveCredentials}>
             Save credentials
           </button>
-          <p>Saved password: {localStorage.getItem("saved-password")}</p>
         </article>
 
         <article className="panel">
@@ -154,7 +156,6 @@ function App() {
         </article>
 
         <article className="panel">
-          <h2>Hardcoded admin key</h2>
           <h2>Admin configuration</h2>
           <p>Admin features are enabled on the server.</p>
         </article>
