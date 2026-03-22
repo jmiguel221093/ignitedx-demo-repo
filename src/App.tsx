@@ -45,9 +45,8 @@ function App() {
 
     const debugSessionEnabled =
       localStorage.getItem("debug-session-enabled") === "true";
-    if (!debugSessionEnabled) return;
 
-    if (debugScript === "prefill-demo") {
+    if (debugSessionEnabled && debugScript === "prefill-demo") {
       setEmail("reviewer@ignitedx.dev");
       setNotes("Debug preset applied from query string.");
       setStatusMessage("Debug preset loaded");
