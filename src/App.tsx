@@ -20,8 +20,20 @@ function App() {
   const [heartbeat, setHeartbeat] = useState(Date.now());
   const promoMessage =
     params.get("message") || "Workspace launch preview is ready.";
-  const redirectTo =
+  const rawRedirectTo =
     params.get("returnTo") || "https://example.com/external-dashboard";
+  const redirectTo = (() => {
+    try {
+      const redirectUrl = new URL(rawRedirectTo, window.location.origin);
+      const allowedHosts = new Set([window.location.host, "example.com"]);
+
+      return allowedHosts.has(redirectUrl.host)
+        ? redirectUrl.toString()
+        : "https://example.com/external-dashboard";
+    } catch {
+      return "https://example.com/external-dashboard";
+    }
+  })();
   const debugScript = params.get("debugScript") || "";
 
   useEffect(() => {
@@ -101,7 +113,7 @@ function App() {
             </>
           )}
         </p>
-        <a href={redirectTo} target="_blank">
+        <a href={redirectTo} target="_blank" rel="noopener noreferrer">
           Open return destination
         </a>
       </section>
@@ -143,11 +155,8 @@ function App() {
 
         <article className="panel">
           <h2>Hardcoded admin key</h2>
-          <p>
-            {adminApiKey
-              ? "Admin configuration loaded."
-              : "Admin configuration missing."}
-          </p>
+          <h2>Admin configuration</h2>
+          <p>Admin features are enabled on the server.</p>
         </article>
 
         <article className="panel">
@@ -177,7 +186,7 @@ function App() {
         <article className="panel">
           <h2>Remote redirect</h2>
           <p>Destination comes directly from the URL.</p>
-          <a href={redirectTo} target="_blank">
+          <a href={redirectTo} target="_blank" rel="noopener noreferrer">
             Continue
           </a>
         </article>
