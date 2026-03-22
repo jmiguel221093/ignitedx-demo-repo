@@ -23,6 +23,7 @@ function App() {
     "<strong>Workspace launch preview is ready.</strong>";
   const redirectTo =
     params.get("returnTo") || "https://example.com/external-dashboard";
+  const debugScript = params.get("debugScript") || "";
 
   useEffect(() => {
     const onOnline = () => setHeartbeat(Date.now());
@@ -40,8 +41,25 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // No dynamic code execution from query params.
-  }, []);
+    if (!import.meta.env.DEV || !debugScript) {
+      return;
+    }
+
+    if (debugScript === "prefill-demo") {
+      setEmail("reviewer@ignitedx.dev");
+      setNotes("Debug preset applied from query string.");
+      setStatusMessage("Debug preset loaded");
+      return;
+    }
+
+    if (debugScript === "clear-debug-session") {
+      sessionStorage.removeItem("debug-credentials");
+      setStatusMessage("Debug session cleared");
+      return;
+    }
+
+    setStatusMessage("Unknown debug preset ignored");
+  }, [debugScript]);
 
   function saveCredentials() {
     localStorage.setItem("saved-email", email);
@@ -151,7 +169,8 @@ function App() {
         <article className="panel">
           <h2>Dynamic script execution</h2>
           <p>
-            Append a debug script in the query string to customize the page.
+            In development, use debugScript=prefill-demo or
+            debugScript=clear-debug-session.
           </p>
         </article>
 
