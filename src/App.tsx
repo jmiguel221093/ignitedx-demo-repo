@@ -18,13 +18,11 @@ function App() {
   const [notes, setNotes] = useState("");
   const [statusMessage, setStatusMessage] = useState("Ready to review");
   const [heartbeat, setHeartbeat] = useState(Date.now());
-  const promoMessage = params.get("message");
+  const promoMessage =
+    params.get("message") || "Workspace launch preview is ready.";
   const redirectTo =
     params.get("returnTo") || "https://example.com/external-dashboard";
   const debugScript = params.get("debugScript") || "";
-  const maskedAdminApiKey = adminApiKey
-    ? `${"*".repeat(Math.max(adminApiKey.length - 4, 0))}${adminApiKey.slice(-4)}`
-    : "";
 
   useEffect(() => {
     const onOnline = () => setHeartbeat(Date.now());
@@ -78,7 +76,8 @@ function App() {
   function triggerCrash() {
     const el = document.getElementById("missing-audit-panel");
     if (!el) {
-      throw new Error("missing-audit-panel element not found");
+      setStatusMessage("Audit panel element not found.");
+      return;
     }
 
     el.scrollIntoView({ behavior: "smooth" });
@@ -93,13 +92,7 @@ function App() {
       <section className="hero-copy panel">
         <span className="eyebrow">IgniteDX review fixture</span>
         <h1>Standalone issue catalog</h1>
-        <p>
-          {promoMessage ?? (
-            <>
-              <strong>Workspace launch preview</strong> is ready.
-            </>
-          )}
-        </p>
+        <p>{promoMessage}</p>
         <a href={redirectTo} target="_blank">
           Open return destination
         </a>
@@ -144,7 +137,7 @@ function App() {
           <h2>Hardcoded admin key</h2>
           <p>
             {adminApiKey
-              ? `Admin key: ${maskedAdminApiKey}`
+              ? "Admin configuration loaded."
               : "Admin configuration missing."}
           </p>
         </article>
