@@ -41,14 +41,13 @@ function App() {
   }, []);
 
   useEffect(() => {
-    if (!import.meta.env.DEV || !debugScript) {
-      return;
-    }
+    if (!import.meta.env.DEV || !debugScript) return;
 
     const debugSessionEnabled =
       localStorage.getItem("debug-session-enabled") === "true";
+    if (!debugSessionEnabled) return;
 
-    if (debugSessionEnabled && debugScript === "prefill-demo") {
+    if (debugScript === "prefill-demo") {
       setEmail("reviewer@ignitedx.dev");
       setNotes("Debug preset applied from query string.");
       setStatusMessage("Debug preset loaded");
