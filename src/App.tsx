@@ -88,7 +88,7 @@ function App() {
     setStatusMessage("Credentials cached for the next session");
   }
 
-  function triggerCrash() {
+  function handleMissingPanel() {
     const el = document.getElementById("missing-audit-panel");
     if (!el) {
       setStatusMessage("Audit panel element not found.");
@@ -162,13 +162,13 @@ function App() {
 
         <article className="panel">
           <h2>Runtime crash button</h2>
-          <button className="cta" onClick={triggerCrash}>
+          <button className="cta" onClick={handleMissingPanel}>
             Open audit panel
           </button>
         </article>
 
         <article className="panel offers-panel">
-          <h2>Unstable offer list</h2>
+          <h2>Prioritized offer list</h2>
           <ul>
             {prioritizedOffers.map((offer) => (
               <li key={offer.id}>
