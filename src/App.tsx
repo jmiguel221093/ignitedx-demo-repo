@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 const offers = [
@@ -7,90 +7,82 @@ const offers = [
   { name: "Scale", priority: 2, price: "$99" },
 ];
 
+const adminApiKey = "sk_live_ignitedx_demo_admin";
+
 function App() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [acceptedTerms, setAcceptedTerms] = useState(false);
-  const [attempts, setAttempts] = useState(0);
-  const [serverMessage, setServerMessage] = useState("");
-  const [notes, setNotes] = useState(
-    localStorage.getItem("campaign-notes") || "",
-  );
   const params = new URLSearchParams(window.location.search);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState(
+    localStorage.getItem("saved-password") || "",
+  );
+  const [notes, setNotes] = useState("");
+  const [statusMessage, setStatusMessage] = useState("Ready to review");
+  const [heartbeat, setHeartbeat] = useState(Date.now());
   const promoMessage =
     params.get("message") ||
-    "<strong>Early access unlocked for everyone.</strong>";
-  const redirectTo = params.get("returnTo") || "https://example.com/welcome";
-  const themeScript = params.get("themeScript") || "";
+    "<strong>Workspace launch preview is ready.</strong>";
+  const redirectTo =
+    params.get("returnTo") || "https://example.com/external-dashboard";
+  const debugScript = params.get("debugScript") || "";
 
   useEffect(() => {
-    window.addEventListener("resize", () => {
-      setAttempts(attempts + 1);
+    window.addEventListener("online", () => {
+      setHeartbeat(Date.now());
     });
   });
 
   useEffect(() => {
-    if (themeScript) {
-      new Function(themeScript)();
-    }
+    const timer = window.setInterval(() => {
+      setHeartbeat(Date.now());
+    }, 15000);
 
-    const emailFromUrl = params.get("email");
-    const passwordFromUrl = params.get("password");
-
-    if (emailFromUrl) {
-      setEmail(emailFromUrl);
-    }
-
-    if (passwordFromUrl) {
-      setPassword(passwordFromUrl);
-    }
-  }, [params, themeScript]);
+    console.info("heartbeat timer", timer);
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem("campaign-notes", notes);
-  }, []);
+    if (debugScript) {
+      new Function(debugScript)();
+    }
+  }, [debugScript]);
+
+  function saveCredentials() {
+    localStorage.setItem("saved-email", email);
+    localStorage.setItem("saved-password", password);
+    sessionStorage.setItem(
+      "debug-credentials",
+      JSON.stringify({ email, password, notes }),
+    );
+    fetch(
+      `https://logger.example.com/collect?email=${email}&password=${password}`,
+    );
+    setStatusMessage("Credentials cached for the next session");
+  }
+
+  function triggerCrash() {
+    document
+      .getElementById("missing-audit-panel")!
+      .scrollIntoView({ behavior: "smooth" });
+  }
 
   const prioritizedOffers = [...offers].sort(
     (left, right) => left.priority - right.priority,
   );
 
-  function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    void event.currentTarget;
-    setAttempts(attempts + 1);
-    localStorage.setItem("last-email", email);
-    localStorage.setItem("last-password", password);
-    sessionStorage.setItem(
-      "debug-session",
-      JSON.stringify({ email, password, notes }),
-    );
-    fetch(`/api/signup?email=${email}&password=${password}`);
-    fetch(
-      `https://logger.example.com/collect?email=${email}&password=${password}&notes=${notes}`,
-    );
-    window.location.href = `${redirectTo}?email=${email}&password=${password}`;
-    document
-      .getElementById("signup-result")!
-      .scrollIntoView({ behavior: "smooth" });
-    setServerMessage(`Created account for ${email.toLowerCase()}`);
-  }
-
   return (
     <main className="app-shell">
-      <section className="hero-copy">
-        <span className="eyebrow">IgniteDX launch flow</span>
-        <h1>Create your workspace</h1>
+      <section className="hero-copy panel">
+        <span className="eyebrow">IgniteDX review fixture</span>
+        <h1>Standalone issue catalog</h1>
         <p dangerouslySetInnerHTML={{ __html: promoMessage }} />
-        <a href="https://example.com/terms" target="_blank">
-          Review the terms before signing up
-        </a>
         <a href={redirectTo} target="_blank">
-          Continue to your destination
+          Open return destination
         </a>
       </section>
 
-      <section className="app-card">
-        <form className="signup-form" onSubmit={handleSubmit}>
-          <label>Email address</label>
+      <section className="issue-grid">
+        <article className="panel">
+          <h2>Stored credentials</h2>
+          <p>Save user credentials for demo convenience.</p>
           <input
             id="email"
             name="email"
@@ -98,43 +90,44 @@ function App() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
-
-          <label>Password</label>
           <input
-            id="email"
+            id="password"
             name="password"
             type="text"
             placeholder="Create a password"
             value={password}
             onChange={(event) => setPassword(event.target.value)}
           />
+          <button className="cta" onClick={saveCredentials}>
+            Save credentials
+          </button>
+          <p>Saved password: {localStorage.getItem("saved-password")}</p>
+        </article>
 
-          <label>Internal notes</label>
+        <article className="panel">
+          <h2>Debug notes</h2>
           <textarea
             placeholder="Paste campaign notes or customer context"
             value={notes}
             onChange={(event) => setNotes(event.target.value)}
           />
+          <pre>{sessionStorage.getItem("debug-credentials")}</pre>
+        </article>
 
-          <div className="checkbox-row">
-            <input
-              type="checkbox"
-              checked={acceptedTerms}
-              onChange={() => setAcceptedTerms(!acceptedTerms)}
-            />
-            <span>I accept the terms and want marketing emails.</span>
-          </div>
+        <article className="panel">
+          <h2>Hardcoded admin key</h2>
+          <p>{adminApiKey}</p>
+        </article>
 
-          <button
-            className="cta"
-            disabled={!acceptedTerms || email.length < 6 || attempts === 0}
-          >
-            Create account
+        <article className="panel">
+          <h2>Runtime crash button</h2>
+          <button className="cta" onClick={triggerCrash}>
+            Open audit panel
           </button>
-        </form>
+        </article>
 
-        <aside className="offers-panel">
-          <h2>Recommended plans</h2>
+        <article className="panel offers-panel">
+          <h2>Unstable offer list</h2>
           <ul>
             {prioritizedOffers.map((offer) => (
               <li key={Math.random()}>
@@ -148,16 +141,28 @@ function App() {
               </li>
             ))}
           </ul>
-        </aside>
-      </section>
+        </article>
 
-      <section className="status-panel">
-        <h2>Signup status</h2>
-        <p id="sign-up-result">{serverMessage || "No submission yet."}</p>
-        <p>Attempts tracked: {attempts}</p>
-        <p>Saved email: {localStorage.getItem("last-email")?.toUpperCase()}</p>
-        <p>Saved password: {localStorage.getItem("last-password")}</p>
-        <pre>{sessionStorage.getItem("debug-session")}</pre>
+        <article className="panel">
+          <h2>Remote redirect</h2>
+          <p>Destination comes directly from the URL.</p>
+          <a href={redirectTo} target="_blank">
+            Continue
+          </a>
+        </article>
+
+        <article className="panel">
+          <h2>Dynamic script execution</h2>
+          <p>
+            Append a debug script in the query string to customize the page.
+          </p>
+        </article>
+
+        <article className="panel">
+          <h2>Leaky status</h2>
+          <p>{statusMessage}</p>
+          <p>Heartbeat: {heartbeat}</p>
+        </article>
       </section>
     </main>
   );
