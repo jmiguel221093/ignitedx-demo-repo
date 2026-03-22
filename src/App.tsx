@@ -23,9 +23,6 @@ function App() {
   const redirectTo =
     params.get("returnTo") || "https://example.com/external-dashboard";
   const debugScript = params.get("debugScript") || "";
-  const maskedAdminApiKey = adminApiKey
-    ? `${"*".repeat(Math.max(adminApiKey.length - 4, 0))}${adminApiKey.slice(-4)}`
-    : "";
 
   useEffect(() => {
     const onOnline = () => setHeartbeat(Date.now());
@@ -80,7 +77,7 @@ function App() {
     const el = document.getElementById("missing-audit-panel");
     if (!el) {
       setStatusMessage("Audit panel element not found.");
-      throw new Error("missing-audit-panel element not found");
+      return;
     }
 
     el.scrollIntoView({ behavior: "smooth" });
@@ -148,7 +145,7 @@ function App() {
           <h2>Hardcoded admin key</h2>
           <p>
             {adminApiKey
-              ? `Admin key: ${maskedAdminApiKey}`
+              ? "Admin configuration loaded."
               : "Admin configuration missing."}
           </p>
         </article>
