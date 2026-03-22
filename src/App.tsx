@@ -73,10 +73,7 @@ function App() {
 
   function saveCredentials() {
     localStorage.setItem("saved-email", email);
-    sessionStorage.setItem(
-      "debug-credentials",
-      JSON.stringify({ email, notes }),
-    );
+    sessionStorage.removeItem("debug-credentials");
     setPassword("");
     setStatusMessage("Credentials cached for the next session");
   }
@@ -150,8 +147,7 @@ function App() {
             onChange={(event) => setNotes(event.target.value)}
           />
           <p>
-            Saved debug notes are available in session storage for local
-            debugging.
+            Debug notes remain in the current form only and are not persisted.
           </p>
         </article>
 
