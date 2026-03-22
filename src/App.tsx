@@ -45,6 +45,13 @@ function App() {
       return;
     }
 
+    const debugSessionEnabled =
+      localStorage.getItem("debug-session-enabled") === "true";
+
+    if (!debugSessionEnabled) {
+      return;
+    }
+
     if (debugScript === "prefill-demo") {
       setEmail("reviewer@ignitedx.dev");
       setNotes("Debug preset applied from query string.");
