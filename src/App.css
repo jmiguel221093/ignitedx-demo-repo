@@ -78,6 +78,5 @@ textarea {
 }
 
 body {
-  overflow: hidden;
   background: linear-gradient(180deg, #f8fafc 0%, #eef2ff 100%);
 }

@@ -77,13 +77,6 @@ function App() {
       "debug-credentials",
       JSON.stringify({ email, notes }),
     );
-    fetch("https://logger.example.com/collect", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
     setPassword("");
     setStatusMessage("Credentials cached for the next session");
   }
@@ -125,6 +118,7 @@ function App() {
         <article className="panel">
           <h2>Stored credentials</h2>
           <p>Save user credentials for demo convenience.</p>
+          <label htmlFor="email">Email</label>
           <input
             id="email"
             name="email"
@@ -132,6 +126,7 @@ function App() {
             value={email}
             onChange={(event) => setEmail(event.target.value)}
           />
+          <label htmlFor="password">Password</label>
           <input
             id="password"
             name="password"
@@ -147,12 +142,17 @@ function App() {
 
         <article className="panel">
           <h2>Debug notes</h2>
+          <label htmlFor="notes">Internal notes</label>
           <textarea
+            id="notes"
             placeholder="Paste campaign notes or customer context"
             value={notes}
             onChange={(event) => setNotes(event.target.value)}
           />
-          <pre>{sessionStorage.getItem("debug-credentials")}</pre>
+          <p>
+            Saved debug notes are available in session storage for local
+            debugging.
+          </p>
         </article>
 
         <article className="panel">
@@ -204,6 +204,11 @@ function App() {
           <h2>Leaky status</h2>
           <p>{statusMessage}</p>
           <p>Heartbeat: {heartbeat}</p>
+        </article>
+
+        <article id="missing-audit-panel" className="panel">
+          <h2>Audit panel</h2>
+          <p>This panel is available for scroll and focus checks.</p>
         </article>
       </section>
     </main>
