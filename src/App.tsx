@@ -161,7 +161,7 @@ function App() {
         </article>
 
         <article className="panel">
-          <h2>Runtime crash button</h2>
+          <h2>Audit panel test</h2>
           <button className="cta" onClick={handleMissingPanel}>
             Open audit panel
           </button>
