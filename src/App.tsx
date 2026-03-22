@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import "./App.css";
 
 const offers = [
-  { name: "Starter", priority: 3, price: "$19" },
-  { name: "Growth", priority: 1, price: "$49" },
-  { name: "Scale", priority: 2, price: "$99" },
+  { id: "starter", name: "Starter", priority: 3, price: "$19" },
+  { id: "growth", name: "Growth", priority: 1, price: "$49" },
+  { id: "scale", name: "Scale", priority: 2, price: "$99" },
 ];
 
 const adminApiKey = "sk_live_ignitedx_demo_admin";
@@ -146,7 +146,7 @@ function App() {
           <h2>Unstable offer list</h2>
           <ul>
             {prioritizedOffers.map((offer) => (
-              <li key={offer.name}>
+              <li key={offer.id}>
                 <button
                   className="offer-button"
                   onClick={() => alert(offer.name)}
