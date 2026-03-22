@@ -7,7 +7,7 @@ const offers = [
   { id: "scale", name: "Scale", priority: 2, price: "$99" },
 ];
 
-const adminApiKey = "";
+const adminApiKey = import.meta.env.VITE_ADMIN_API_KEY ?? "";
 
 function App() {
   const params = new URLSearchParams(window.location.search);
@@ -19,8 +19,7 @@ function App() {
   const [statusMessage, setStatusMessage] = useState("Ready to review");
   const [heartbeat, setHeartbeat] = useState(Date.now());
   const promoMessage =
-    params.get("message") ||
-    "<strong>Workspace launch preview is ready.</strong>";
+    params.get("message") || "Workspace launch preview is ready.";
   const redirectTo =
     params.get("returnTo") || "https://example.com/external-dashboard";
   const debugScript = params.get("debugScript") || "";
@@ -75,9 +74,13 @@ function App() {
   }
 
   function triggerCrash() {
-    document
-      .getElementById("missing-audit-panel")!
-      .scrollIntoView({ behavior: "smooth" });
+    const el = document.getElementById("missing-audit-panel");
+    if (!el) {
+      setStatusMessage("Audit panel element not found.");
+      return;
+    }
+
+    el.scrollIntoView({ behavior: "smooth" });
   }
 
   const prioritizedOffers = [...offers].sort(
@@ -132,7 +135,11 @@ function App() {
 
         <article className="panel">
           <h2>Hardcoded admin key</h2>
-          <p>{adminApiKey}</p>
+          <p>
+            {adminApiKey
+              ? "Admin configuration loaded."
+              : "Admin configuration missing."}
+          </p>
         </article>
 
         <article className="panel">
