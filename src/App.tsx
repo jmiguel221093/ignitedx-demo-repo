@@ -26,10 +26,11 @@ function App() {
   const debugScript = params.get("debugScript") || "";
 
   useEffect(() => {
-    window.addEventListener("online", () => {
-      setHeartbeat(Date.now());
-    });
-  });
+    const onOnline = () => setHeartbeat(Date.now());
+    window.addEventListener("online", onOnline);
+
+    return () => window.removeEventListener("online", onOnline);
+  }, []);
 
   useEffect(() => {
     const timer = window.setInterval(() => {
